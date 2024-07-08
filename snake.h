@@ -1,19 +1,7 @@
 #include <iostream>
 #include "graphics.h"
-enum Direction {
-    up,
-    down,
-    right,
-    left,
-};
-class Object{
-public:
-    float x;
-    float y;
-    bool CheckCollisionWith(Object n2);
-};
-#define node_width 0.2
-#define node_hight 0.2
+#include "object.h"
+
 class SnakeNode : public Object{
 public:
     SnakeNode(float x,float y);

@@ -1,3 +1,6 @@
+#ifndef GRAPHICS_H
+#define GRAPHICS_H
+
 #include <GL/glut.h>
 class Rgb{
     public:
@@ -11,3 +14,5 @@ class Rgb{
         float blue;
 };
 extern "C" void draw_square(float x,float y,float width, float hight,Rgb color);
+
+#endif

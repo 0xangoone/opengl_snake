@@ -1,35 +1,49 @@
 #include <GL/glut.h>
 #include <memory>
 #include <iostream>
+#include <thread>
+#include <chrono>
 #include "snake.h"
+#include "apple.h"
 
-float px = -0.5;
-float py = -0.5;
+std::shared_ptr<Snake> snake(new Snake(-0.5,-0.5));
+Apple apple;
+Direction cur_dir = Direction::up;
+
 void display() {
     glClear(GL_COLOR_BUFFER_BIT);
 
-    Snake *s = new Snake(-0.5,-0.5);
 
-    s->draw();
-
-    delete s;
+    snake->draw();
+    apple.draw();
+    snake->move(cur_dir);
+    if(snake->head->CheckCollisionWith(apple) == true){
+        snake->grow();
+        apple.spawn();
+    }
 
     glEnd();
     glFlush();
+    std::this_thread::sleep_for (std::chrono::milliseconds(200));
+    glutPostRedisplay();
 }
 void normal_key_handle(int key, int x, int y){
     switch(key){
         case GLUT_KEY_UP:
-            py+=0.1;
+            cur_dir = Direction::up;
+            snake->change_dir(Direction::up);
             break;
         case GLUT_KEY_DOWN:
-            py-=0.1;
+            cur_dir = Direction::down;
+            snake->change_dir(Direction::down);
             break;
         case GLUT_KEY_LEFT:
-            px-=0.1;
+            cur_dir = Direction::left;
+            snake->change_dir(Direction::left);
             break;
         case GLUT_KEY_RIGHT:
-            px+=0.1;
+            cur_dir = Direction::right;
+            snake->change_dir(Direction::right);
             break;
         default:
             break;
